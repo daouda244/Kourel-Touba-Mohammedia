@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil Moderne</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+         #imageDeFond {
+        background-image: url('imgs/imageDeFond.JFIF');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* Pour que l'image reste fixe lors du scroll */
+    }
+        #Navlink a {
+            color: #f8f9fa;
+        }
+        body {
+            background: #f8f9fa;
+        }
+        .navbar-nav .nav-link {
+            font-size: 1.1rem;
+        }
+        .dropdown-menu {
+            min-width: 10rem;
+        }
+        .form-container {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #sousMenuDesXassida li a{
+      color: #f8f9fa;
+      background-color: #003A00;
+        }
+
+        #sousMenuDesXassida .dropdown-item:hover {
+            background-color: #005600; /* Couleur de survol */
+        }
+        .card {
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+        #navbarNav li a {
+            color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Bootstrap -->
+    <nav class="navbar navbar-expand-lg text-white" style="background-color: #003A00; color: #f8f9fa; ">
+        <div class="container">
+            <a class="navbar-brand" style="color: #f8f9fa;" href="../Accueil.html">MonSite</a>
+            <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div  class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="../Accueil.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">A propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="xassidaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Xassida
+                        </a>
+                        <ul class="dropdown-menu" id="sousMenuDesXassida" aria-labelledby="xassidaDropdown">
+                            <li><a class="dropdown-item" href="">Xassida 1</a></li>
+                            <li><a class="dropdown-item" href="#">Xassida 2</a></li>
+                            <li><a class="dropdown-item" href="#">Xassida 3</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="nav-link text-white mr-4" href="#">Se connecter</a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-white" href="#">Se deconnecter</a>
+                    </li>
+                </ul>
+            </div>
+            <!--  -->
+            
+        </div>
+    </nav>
+
+    <!-- Message d'accueil -->
+   <!-- Remplace le bloc existant par celui-ci pour une pleine largeur -->
+<div id="imageDeFond" class="w-100 py-4 text-center" style="background-color: green; color: #f8f9fa;">
+    <h1 class="m-0"></h1>
+      <img src="Xassidas/WadieuhtouLilahiHamdan.png.PNG" alt="">
+      
+</div>
+<!-- ...existing code... -->
+<div class="container my-4">
+    <div style="background-color: green; opacity: 4;" class="row  text-white text-center py-3">
+        <div class="col-12 col-md-4 mb-4">
+            <h3>Beuyit 1</h3>
+            <audio  controls  loop muted preload="auto"   class="mt-2 w-100">
+                <source src="Xassidas/Beuyit1WadieuhtouLilaahiHamdan.mp3" type="audio/mpeg">
+                Votre navigateur ne supporte pas l'élément audio.
+            </audio>
+            <br>
+            <img width="300" src="Xassidas/B1.png" alt="">
+            <br>
+            <a href="Xassidas/Beuyit1WadieuhtouLilaahiHamdan.mp3" download class="btn btn-success mt-2">
+                Télécharger l'audio
+            </a>
+        </div>
+        <div class="col-12 col-md-4 mb-4">
+            <h3>Beuyit 2</h3>
+            <audio  controls  loop muted preload="auto"  class="mt-2 w-100">
+                <source src="Xassidas/Beuyit1WadieuhtouLilaahiHamdan.mp3" type="audio/mpeg">
+                Votre navigateur ne supporte pas l'élément audio.
+            </audio>
+            <br>
+                <img width="300" src="Xassidas/B1.png" alt="">
+            <br>
+            <a href="Xassidas/Beuyit1WadieuhtouLilaahiHamdan.mp3" download class="btn btn-success mt-2">
+                Télécharger l'audio
+            </a>
+        </div>
+        <div class="col-12 col-md-4 mb-4">
+            <h3>Beuyit 3</h3>
+            <audio  controls  loop muted preload="auto"  class="mt-2 w-100">
+                <source src="Xassidas/Beuyit1WadieuhtouLilaahiHamdan.mp3" type="audio/mpeg">
+                Votre navigateur ne supporte pas l'élément audio.
+            </audio>
+            <br>
+                <img width="300" src="Xassidas/B1.png" alt="">
+            <br>
+            <a href="Xassidas/Beuyit1WadieuhtouLilaahiHamdan.mp3" download class="btn btn-success mt-2">
+                Télécharger l'audio
+            </a>
+        </div>
+    </div>
+</div>
+<!-- ...existing code... -->
+
+
+
+
+
+<!-- ...existing code... -->
+<div class="container my-4">
+    <div style="background-color: green; opacity: 4;" class="row  text-white text-center py-3">
+        <div class="col-12 col-md-4 mb-4">
+            <h3>Beuyit 1</h3>
+            <audio  controls  loop muted preload="auto"   class="mt-2 w-100">
+                <source src="Xassidas/Beuyit1WadieuhtouLilaahiHamdan.mp3" type="audio/mpeg">
+                Votre navigateur ne supporte pas l'élément audio.
+            </audio>
+            <br>
+            <img width="300" src="Xassidas/B1.png" alt="">
+            <br>
+            <a href="Xassidas/Beuyit1WadieuhtouLilaahiHamdan.mp3" download class="btn btn-success mt-2">
+                Télécharger l'audio
+            </a>
+        </div>
+        <div class="col-12 col-md-4 mb-4">
+            <h3>Beuyit 2</h3>
+            <audio  controls  loop muted preload="auto"  class="mt-2 w-100">
+                <source src="Xassidas/Beuyit1WadieuhtouLilaahiHamdan.mp3" type="audio/mpeg">
+                Votre navigateur ne supporte pas l'élément audio.
+            </audio>
+            <br>
+                <img width="300" src="Xassidas/B1.png" alt="">
+            <br>
+            <a href="Xassidas/Beuyit1WadieuhtouLilaahiHamdan.mp3" download class="btn btn-success mt-2">
+                Télécharger l'audio
+            </a>
+        </div>
+        <div class="col-12 col-md-4 mb-4">
+            <h3>Beuyit 3</h3>
+            <audio  controls  loop muted preload="auto"  class="mt-2 w-100">
+                <source src="Xassidas/Beuyit1WadieuhtouLilaahiHamdan.mp3" type="audio/mpeg">
+                Votre navigateur ne supporte pas l'élément audio.
+            </audio>
+            <br>
+                <img width="300" src="Xassidas/B1.png" alt="">
+            <br>
+            <a href="Xassidas/Beuyit1WadieuhtouLilaahiHamdan.mp3" download class="btn btn-success mt-2">
+                Télécharger l'audio
+            </a>
+        </div>
+    </div>
+</div>
+<!-- ...existing code... -->
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- footer -->
+    <!-- footer -->
+    <footer>
+        <div style="background-color: #005600; color:#f8f9fa; padding: 0.1%;padding-top: 1%;" class="text-center mt-4">
+            <p>&copy; 2023 Daara Fathul Ghaffar Touba Mohammedia. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>

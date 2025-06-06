@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur d'annonces DBServices Group</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .ad-container {
+            width: 1080px;
+            height: 1080px;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .date-overlay {
+            position: absolute;
+            top: 130px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: #2c5aa0;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 10;
+            font-family: Arial, sans-serif;
+            letter-spacing: 1px;
+            cursor: move;
+            user-select: none;
+            min-width: 200px;
+            min-height: 40px;
+            resize: both;
+            overflow: auto;
+            border: 2px dashed transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .date-overlay:hover {
+            border-color: #2c5aa0;
+        }
+
+        .date-overlay.dragging {
+            border-color: #e74c3c;
+            transform: none;
+        }
+
+        .resize-handles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .resize-handle {
+            position: absolute;
+            background: #2c5aa0;
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            pointer-events: all;
+            cursor: nw-resize;
+        }
+
+        .resize-handle.bottom-right {
+            bottom: -6px;
+            right: -6px;
+            cursor: nw-resize;
+        }
+
+        .resize-handle.bottom-left {
+            bottom: -6px;
+            left: -6px;
+            cursor: ne-resize;
+        }
+
+        .resize-handle.top-right {
+            top: -6px;
+            right: -6px;
+            cursor: ne-resize;
+        }
+
+        .resize-handle.top-left {
+            top: -6px;
+            left: -6px;
+            cursor: nw-resize;
+        }
+
+        .control-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-control:focus {
+            border-color: #2c5aa0;
+            box-shadow: 0 0 0 0.2rem rgba(44, 90, 160, 0.25);
+        }
+
+        .btn-primary {
+            background-color: #2c5aa0;
+            border-color: #2c5aa0;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e3a6f;
+            border-color: #1e3a6f;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: #2c5aa0;
+            background-color: #f8f9fa;
+        }
+
+        .upload-area.dragover {
+            border-color: #2c5aa0;
+            background-color: #e3f2fd;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4 text-primary">
+                    <i class="fas fa-truck"></i> Générateur d'annonces DBServices Group
+                </h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="control-panel">
+                    <h4 class="mb-3"><i class="fas fa-cog"></i> Paramètres</h4>
+                    
+                    <div class="upload-area" onclick="document.getElementById('imageUpload').click()">
+                        <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
+                        <p class="mb-0">Cliquez ici pour charger votre image de fond</p>
+                        <p class="small text-muted">ou glissez-déposez votre image</p>
+                        <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                        <img id="imagePreview" style="display: none;">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="departureDate" class="form-label">
+                            <i class="fas fa-calendar-alt"></i> Date de départ
+                        </label>
+                        <input type="date" class="form-control" id="departureDate" value="2025-02-07">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-arrows-alt"></i> Position et taille du cadre
+                        </label>
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="form-label small">Largeur (px)</label>
+                                <input type="number" class="form-control form-control-sm" id="frameWidth" value="400" min="200" max="800">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Hauteur (px)</label>
+                                <input type="number" class="form-control form-control-sm" id="frameHeight" value="60" min="40" max="200">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-6">
+                                <label class="form-label small">Position X</label>
+                                <input type="number" class="form-control form-control-sm" id="frameX" value="340" min="0" max="1080">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Position Y</label>
+                                <input type="number" class="form-control form-control-sm" id="frameY" value="130" min="0" max="1080">
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-primary btn-sm mt-2" onclick="resetPosition()">
+                            <i class="fas fa-undo"></i> Réinitialiser position
+                        </button>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" onclick="updateDateAndFrame()">
+                            <i class="fas fa-sync-alt"></i> Mettre à jour
+                        </button>
+                        <button class="btn btn-success" onclick="downloadPNG()">
+                            <i class="fas fa-download"></i> Télécharger PNG
+                        </button>
+                    </div>
+
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle"></i> 
+                            Chargez d'abord votre image de fond, puis modifiez la date selon vos besoins.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="text-center">
+                    <div id="adCanvas" class="ad-container mx-auto">
+                        <div class="date-overlay" id="dateOverlay">
+                            PROCHAIN DÉPART : 07 FÉVRIER 2025
+                            <div class="resize-handles">
+                                <div class="resize-handle top-left"></div>
+                                <div class="resize-handle top-right"></div>
+                                <div class="resize-handle bottom-left"></div>
+                                <div class="resize-handle bottom-right"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script>
+        let currentImageData = null;
+        let isDragging = false;
+        let isResizing = false;
+        let startX, startY, startWidth, startHeight, startLeft, startTop;
+
+        // Handle file upload
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                loadImage(file);
+            }
+        });
+
+        // Handle drag and drop
+        const uploadArea = document.querySelector('.upload-area');
+        
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                loadImage(files[0]);
+            }
+        });
+
+        // Initialize drag and resize functionality
+        function initializeDateFrameInteraction() {
+            const dateOverlay = document.getElementById('dateOverlay');
+            const resizeHandles = dateOverlay.querySelectorAll('.resize-handle');
+
+            // Drag functionality
+            dateOverlay.addEventListener('mousedown', function(e) {
+                if (e.target.classList.contains('resize-handle')) return;
+                
+                isDragging = true;
+                dateOverlay.classList.add('dragging');
+                
+                const rect = dateOverlay.getBoundingClientRect();
+                const containerRect = document.getElementById('adCanvas').getBoundingClientRect();
+                
+                startX = e.clientX - rect.left;
+                startY = e.clientY - rect.top;
+                
+                e.preventDefault();
+            });
+
+            // Resize functionality
+            resizeHandles.forEach(handle => {
+                handle.addEventListener('mousedown', function(e) {
+                    isResizing = true;
+                    
+                    const rect = dateOverlay.getBoundingClientRect();
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startWidth = rect.width;
+                    startHeight = rect.height;
+                    startLeft = rect.left;
+                    startTop = rect.top;
+                    
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    const containerRect = document.getElementById('adCanvas').getBoundingClientRect();
+                    const newLeft = e.clientX - containerRect.left - startX;
+                    const newTop = e.clientY - containerRect.top - startY;
+                    
+                    dateOverlay.style.left = Math.max(0, Math.min(newLeft, containerRect.width - dateOverlay.offsetWidth)) + 'px';
+                    dateOverlay.style.top = Math.max(0, Math.min(newTop, containerRect.height - dateOverlay.offsetHeight)) + 'px';
+                    dateOverlay.style.transform = 'none';
+                    
+                    updateFormValues();
+                }
+                
+                if (isResizing) {
+                    const deltaX = e.clientX - startX;
+                    const deltaY = e.clientY - startY;
+                    
+                    const newWidth = Math.max(200, startWidth + deltaX);
+                    const newHeight = Math.max(40, startHeight + deltaY);
+                    
+                    dateOverlay.style.width = newWidth + 'px';
+                    dateOverlay.style.height = newHeight + 'px';
+                    
+                    updateFormValues();
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    dateOverlay.classList.remove('dragging');
+                }
+                if (isResizing) {
+                    isResizing = false;
+                }
+            });
+        }
+
+        function updateFormValues() {
+            const dateOverlay = document.getElementById('dateOverlay');
+            const rect = dateOverlay.getBoundingClientRect();
+            const containerRect = document.getElementById('adCanvas').getBoundingClientRect();
+            
+            document.getElementById('frameWidth').value = Math.round(rect.width);
+            document.getElementById('frameHeight').value = Math.round(rect.height);
+            document.getElementById('frameX').value = Math.round(rect.left - containerRect.left);
+            document.getElementById('frameY').value = Math.round(rect.top - containerRect.top);
+        }
+
+        function loadImage(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Veuillez sélectionner un fichier image valide.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentImageData = e.target.result;
+                
+                // Update preview
+                const preview = document.getElementById('imagePreview');
+                preview.src = currentImageData;
+                preview.style.display = 'block';
+                
+                // Update ad canvas background
+                const canvas = document.getElementById('adCanvas');
+                canvas.style.backgroundImage = `url(${currentImageData})`;
+                
+                // Update upload area text
+                uploadArea.innerHTML = `
+                    <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                    <p class="mb-0 text-success">Image chargée avec succès!</p>
+                    <p class="small text-muted">Cliquez pour changer d'image</p>
+                    <img id="imagePreview" src="${currentImageData}" style="max-width: 100%; max-height: 200px; margin-top: 10px; border-radius: 8px;">
+                `;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateDateAndFrame() {
+            updateDate();
+            updateFrameFromForm();
+        }
+
+        function updateDate() {
+            const dateInput = document.getElementById('departureDate').value;
+
+            if (dateInput) {
+                const date = new Date(dateInput);
+                const months = [
+                    'JANVIER', 'FÉVRIER', 'MARS', 'AVRIL', 'MAI', 'JUIN',
+                    'JUILLET', 'AOÛT', 'SEPTEMBRE', 'OCTOBRE', 'NOVEMBRE', 'DÉCEMBRE'
+                ];
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = months[date.getMonth()];
+                const year = date.getFullYear();
+                
+                document.getElementById('dateOverlay').firstChild.textContent = `PROCHAIN DÉPART : ${day} ${month} ${year}`;
+            }
+        }
+
+        function updateFrameFromForm() {
+            const dateOverlay = document.getElementById('dateOverlay');
+            const width = document.getElementById('frameWidth').value;
+            const height = document.getElementById('frameHeight').value;
+            const x = document.getElementById('frameX').value;
+            const y = document.getElementById('frameY').value;
+            
+            dateOverlay.style.width = width + 'px';
+            dateOverlay.style.height = height + 'px';
+            dateOverlay.style.left = x + 'px';
+            dateOverlay.style.top = y + 'px';
+            dateOverlay.style.transform = 'none';
+        }
+
+        function resetPosition() {
+            document.getElementById('frameWidth').value = 400;
+            document.getElementById('frameHeight').value = 60;
+            document.getElementById('frameX').value = 340;
+            document.getElementById('frameY').value = 130;
+            updateFrameFromForm();
+        }
+
+        // Add event listeners for form inputs
+        document.getElementById('frameWidth').addEventListener('input', updateFrameFromForm);
+        document.getElementById('frameHeight').addEventListener('input', updateFrameFromForm);
+        document.getElementById('frameX').addEventListener('input', updateFrameFromForm);
+        document.getElementById('frameY').addEventListener('input', updateFrameFromForm);
+
+        function downloadPNG() {
+            if (!currentImageData) {
+                alert('Veuillez d\'abord charger une image de fond.');
+                return;
+            }
+
+            const element = document.getElementById('adCanvas');
+            
+            html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null,
+                width: 1080,
+                height: 1080
+            }).then(canvas => {
+                const link = document.createElement('a');
+                const dateStr = document.getElementById('departureDate').value;
+                link.download = `DBServices-Transport-${dateStr}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+            }).catch(error => {
+                console.error('Erreur lors du téléchargement:', error);
+                alert('Erreur lors du téléchargement. Veuillez réessayer.');
+            });
+        }
+
+        // Initialize with current date
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            const formattedDate = nextWeek.toISOString().split('T')[0];
+            document.getElementById('departureDate').value = formattedDate;
+            updateDate();
+            initializeDateFrameInteraction();
+        });
+    </script>
+</body>
+</html>

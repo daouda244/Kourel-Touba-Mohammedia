@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de CV en ligne</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .cv-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .header-content { position: relative; z-index: 1; }
+        .name { font-size: 2.5em; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+        .title { font-size: 1.2em; font-weight: 300; opacity: 0.9; margin-bottom: 20px; }
+        .contact-info { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
+        .contact-item { display: flex; align-items: center; gap: 8px; font-size: 0.9em; }
+        .contact-icon { width: 16px; height: 16px; fill: currentColor; }
+        .main-content { display: grid; grid-template-columns: 1fr 2fr; gap: 0; }
+        .sidebar { background: #f8f9fa; padding: 40px 30px; }
+        .content { padding: 40px; }
+        .section { margin-bottom: 30px; }
+        .section-title { font-size: 1.3em; font-weight: 700; color: #2c3e50; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; position: relative; padding-bottom: 10px; }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 50px; height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        .sidebar .section-title { color: #495057; font-size: 1.1em; }
+        .sidebar .section-title::after { width: 30px; height: 2px; }
+        .experience-item { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        .experience-item:last-child { border-bottom: none; margin-bottom: 0; }
+        .job-title { font-size: 1.1em; font-weight: 700; color: #2c3e50; margin-bottom: 5px; }
+        .company-period { font-size: 0.9em; color: #666; margin-bottom: 10px; font-style: italic; }
+        .job-description { margin-top: 10px; }
+        .job-description ul { list-style: none; padding-left: 0; }
+        .job-description li { margin-bottom: 5px; padding-left: 20px; position: relative; }
+        .job-description li::before { content: '▸'; position: absolute; left: 0; color: #667eea; font-weight: bold; }
+        .skills-list { list-style: none; }
+        .skills-list li {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 15px;
+            margin-bottom: 8px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            text-align: center;
+            font-weight: 500;
+        }
+        .languages-list li, .interests-list li { padding: 5px 0; border-bottom: 1px solid #e9ecef; font-size: 0.9em; }
+        .languages-list li:last-child, .interests-list li:last-child { border-bottom: none; }
+        .formation-item { margin-bottom: 15px; }
+        .formation-title { font-weight: 600; color: #2c3e50; margin-bottom: 3px; }
+        .formation-details { font-size: 0.9em; color: #666; }
+        @media (max-width: 768px) {
+            .main-content { grid-template-columns: 1fr; }
+            .contact-info { flex-direction: column; gap: 15px; }
+            .name { font-size: 2em; }
+        }
+        @media print {
+            body { background: white; padding: 0; }
+            .cv-container { box-shadow: none; border-radius: 0; }
+            .download-hide { display: none !important; }
+        }
+        .download-hide.hide { display: none !important; }
+        .cv-form-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            padding: 30px 30px 10px 30px;
+        }
+        .cv-form-container label { font-weight: 500; }
+        .cv-form-container input, .cv-form-container textarea {
+            width: 100%; margin-bottom: 15px; padding: 8px 10px; border-radius: 8px; border: 1px solid #ccc;
+            font-size: 1em;
+        }
+        .cv-form-container button {
+            background: linear-gradient(90deg, #667eea 60%, #764ba2 100%);
+            color: #fff; font-weight: bold; border-radius: 25px; padding: 10px 30px; border: none; font-size: 1.1em;
+            cursor: pointer;
+        }
+        .cv-form-container button:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="cv-form-container" id="form-section">
+        <h2 style="text-align:center;margin-bottom:20px;">Créer votre CV en ligne</h2>
+        <form id="cv-form">
+            <label>Nom et Prénom</label>
+            <input type="text" id="name" required>
+            <label>Poste recherché</label>
+            <input type="text" id="title" required>
+            <label>Email</label>
+            <input type="email" id="email">
+            <label>Téléphone</label>
+            <input type="text" id="phone">
+            <label>Adresse</label>
+            <input type="text" id="address">
+            <label>Profil / Présentation</label>
+            <textarea id="profile" rows="2"></textarea>
+            <label>Langues (une par ligne)</label>
+            <textarea id="languages" rows="2"></textarea>
+            <label>Compétences (une par ligne)</label>
+            <textarea id="skills" rows="2"></textarea>
+            <label>Expériences (une par bloc, format : Poste | Période | Description...)</label>
+            <textarea id="experiences" rows="4"></textarea>
+            <label>Formations (une par bloc, format : Diplôme | Détails)</label>
+            <textarea id="educations" rows="3"></textarea>
+            <label>Centres d'intérêt (une par ligne)</label>
+            <textarea id="interests" rows="2"></textarea>
+            <div style="text-align:center;">
+                <button type="submit">Générer mon CV</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="cv-result"></div>
+    <div id="download-btns" class="text-center my-4 download-hide" style="display:none;">
+        <button id="download-pdf" class="btn" style="background: linear-gradient(90deg, #667eea 60%, #764ba2 100%); color: #fff; font-weight: bold; border-radius: 25px; padding: 10px 30px;">
+            Télécharger le CV en PDF
+        </button>
+        <button id="download-png" class="btn ms-2" style="background: linear-gradient(90deg, #764ba2 60%, #667eea 100%); color: #fff; font-weight: bold; border-radius: 25px; padding: 10px 30px;">
+            Télécharger le CV en PNG
+        </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+    document.getElementById('cv-form').onsubmit = function(e) {
+        e.preventDefault();
+        // Récupérer les valeurs
+        const name = document.getElementById('name').value;
+        const title = document.getElementById('title').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const address = document.getElementById('address').value;
+        const profile = document.getElementById('profile').value;
+        const languages = document.getElementById('languages').value.split('\n').filter(Boolean);
+        const skills = document.getElementById('skills').value.split('\n').filter(Boolean);
+        const experiences = document.getElementById('experiences').value.split('\n').filter(Boolean);
+        const educations = document.getElementById('educations').value.split('\n').filter(Boolean);
+        const interests = document.getElementById('interests').value.split('\n').filter(Boolean);
+
+        // Générer le HTML du CV
+        let html = `
+        <div class="cv-container" id="cv-to-download">
+            <header class="header">
+                <div class="header-content">
+                    <h1 class="name">${name}</h1>
+                    <p class="title">${title}</p>
+                    <div class="contact-info">
+                        ${email ? `<div class="contact-item"><svg class="contact-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>${email}</div>` : ''}
+                        ${phone ? `<div class="contact-item"><svg class="contact-icon" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>${phone}</div>` : ''}
+                        ${address ? `<div class="contact-item"><svg class="contact-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>${address}</div>` : ''}
+                    </div>
+                </div>
+            </header>
+            <div class="main-content">
+                <aside class="sidebar">
+                    <section class="section">
+                        <h2 class="section-title">Langues</h2>
+                        <ul class="languages-list">
+                            ${languages.map(l => `<li>${l}</li>`).join('')}
+                        </ul>
+                    </section>
+                    <section class="section">
+                        <h2 class="section-title">Compétences</h2>
+                        <ul class="skills-list">
+                            ${skills.map(s => `<li>${s}</li>`).join('')}
+                        </ul>
+                    </section>
+                    <section class="section">
+                        <h2 class="section-title">Intérêts</h2>
+                        <ul class="interests-list">
+                            ${interests.map(i => `<li>${i}</li>`).join('')}
+                        </ul>
+                    </section>
+                </aside>
+                <main class="content">
+                    <section class="section">
+                        <h2 class="section-title">Profil</h2>
+                        <p>${profile}</p>
+                    </section>
+                    <section class="section">
+                        <h2 class="section-title">Expériences Professionnelles</h2>
+                        ${experiences.map(exp => {
+                            let parts = exp.split('|');
+                            return `<div class="experience-item">
+                                <h3 class="job-title">${parts[0] ? parts[0].trim() : ''}</h3>
+                                ${parts[1] ? `<p class="company-period">${parts[1].trim()}</p>` : ''}
+                                <div class="job-description"><ul>${parts.slice(2).map(d => `<li>${d.trim()}</li>`).join('')}</ul></div>
+                            </div>`;
+                        }).join('')}
+                    </section>
+                    <section class="section">
+                        <h2 class="section-title">Formations</h2>
+                        ${educations.map(edu => {
+                            let parts = edu.split('|');
+                            return `<div class="formation-item">
+                                <h3 class="formation-title">${parts[0] ? parts[0].trim() : ''}</h3>
+                                <p class="formation-details">${parts[1] ? parts[1].trim() : ''}</p>
+                            </div>`;
+                        }).join('')}
+                    </section>
+                </main>
+            </div>
+        </div>
+        `;
+        document.getElementById('cv-result').innerHTML = html;
+        document.getElementById('form-section').style.display = "none";
+        document.getElementById('download-btns').style.display = "block";
+        window.scrollTo(0,0);
+    };
+
+    document.getElementById('download-pdf').onclick = function() {
+        const element = document.getElementById('cv-to-download');
+        const hideBtns = document.querySelector('.download-hide');
+        hideBtns.classList.add('hide');
+        setTimeout(function() {
+            html2pdf()
+                .set({
+                    margin:       0,
+                    filename:     'cv-en-ligne.pdf',
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2 },
+                    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                })
+                .from(element)
+                .save()
+                .then(() => {
+                    hideBtns.classList.remove('hide');
+                });
+        }, 200);
+    };
+
+    document.getElementById('download-png').onclick = function() {
+        const element = document.getElementById('cv-to-download');
+        const hideBtns = document.querySelector('.download-hide');
+        hideBtns.classList.add('hide');
+        setTimeout(function() {
+            html2canvas(element).then(function(canvas) {
+                var link = document.createElement('a');
+                link.download = 'cv-en-ligne.png';
+                link.href = canvas.toDataURL();
+                link.click();
+                hideBtns.classList.remove('hide');
+            });
+        }, 200);
+    };
+    </script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil Moderne</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .Formulaire{ 
+            color: #005600;
+        }
+        #Navlink a {
+            color: #f8f9fa;
+        }
+        body {
+        background-image: url('imgs/imageDeFond2.png');
+        background-position: cover;
+        background-size:contain;
+        background-repeat: no-repeat;
+        background-attachment:scroll; /* Pour que l'image reste fixe lors du scroll */
+    }
+        .navbar-nav .nav-link {
+            font-size: 1.1rem;
+        }
+        .dropdown-menu {
+            min-width: 10rem;
+        }
+        /* .form-container {
+        background: rgb(255,255,255,1); 
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top:3% ;
+    } */
+       .card {
+        background: transparent; /* Retire le fond blanc opaque */
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+        #sousMenuDesXassida li a{
+        color: #f8f9fa;
+        background-color: #003A00;
+        }
+        #sousMenuDesXassida .dropdown-item:hover {
+            background-color: #005600; /* Couleur de survol */
+        }
+        #navbarNav li a {
+            color: #f8f9fa;
+        }
+        .w-100.py-4 {
+        /* background: rgba(13,110,253,0.7) !important; */
+        background-color: #005600;
+        opacity: 0.9;
+         /* Rend le header semi-transparent */
+
+         height: 200px;
+    }
+    #BblocCharteKourel
+    {
+        background-color: #005600; 
+        color:#f8f9fa;
+    
+    }
+    /* BblocCharteKourel hover */
+    #ParagrapheBlocCharteKourel{display: none;}
+    #BblocCharteKourel :hover #ParagrapheBlocCharteKourel  {display: block;font-size: 300%;}
+    #BblocCharteKourel :hover  #imgBblocCharteKourel {display: none;}
+    /* Effet glassmorphism sur les blocs */
+#BblocCharteKourel .card-body {
+    background: rgba(0, 86, 0, 0.75);
+    backdrop-filter: blur(4px);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+/* Effet de survol doux sur les cartes */
+#BblocCharteKourel.card:hover .card-body {
+    background: rgba(0, 86, 0, 0.92);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+    transform: translateY(-6px) scale(1.03);
+}
+
+/* Animation d’apparition */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+.row.justify-content-center > div {
+    animation: fadeInUp 0.8s;
+}
+
+/* Séparateur décoratif sous le titre */
+.decor-separator {
+    width: 120px;
+    height: 5px;
+    background: linear-gradient(90deg, #005600 60%, #39d353 100%);
+    border-radius: 8px;
+    margin: 18px auto 30px auto;
+}
+
+/* Style images dans les blocs */
+#BblocCharteKourel img {
+    margin-bottom: 18px;
+    max-height: 110px;
+    max-width: 80%;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    background: #fff;
+    padding: 8px;
+}
+    </style>
+</head>
+<body>
+    <!-- Menu Bootstrap -->
+    <nav class="navbar navbar-expand-lg " style="background-color: #003A00;">
+        <div class="container">
+            <a class="navbar-brand" style="color: #f8f9fa;" href="Accueil.html">MonSite</a>
+            <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="Accueil.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">A propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="xassidaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Xassida
+                        </a>
+                        <ul style="background-color: #003A00;"  id="sousMenuDesXassida" class="dropdown-menu text-white" aria-labelledby="xassidaDropdown">
+                            <li><a class="dropdown-item" href="Xassidas/WadieuhtoulilahiHamdan.html">Wadieuhtoulilahi hamdan</a></li>
+                            <li><a class="dropdown-item" href="#">Xassida 2</a></li>
+                            <li><a class="dropdown-item" href="#">Xassida 3</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="nav-link text-white mr-4" href="#">Se connecter</a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-white" href="#">Se deconnecter</a>
+                    </li>
+                    <!-- Bouton Admin visible uniquement pour l'admin -->
+                    <li id="adminMenu">
+                        <a class="nav-link text-warning" href="#" data-bs-toggle="modal" data-bs-target="#adminModal"><b>Admin</b></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- image de fond -->
+     
+    <!-- Message d'accueil -->
+    <div class="w-100 py-4 text-center" style=" color: #f8f9fa;">
+        <h1 class="m-0" style="font-size:300%;">Répétion Kourel 1 Daara Fathul Qaffar Touba Mohammedia</h1>
+    </div>
+
+    <!-- Message de bienvenue en popup -->
+    <script>
+        window.onload = function() {
+            alert("Bienvenue sur la page d'accueil de la Répétion Kourel 1 Daara Fathul Qaffar Touba Mohammedia !");
+        }
+    </script>
+
+<!-- Ajoutez ce bloc juste après le h1 -->
+<div class="container-fluid my-5 py-5" style="background-color: #f8f9fa;">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-4 d-flex justify-content-center mb-4" >
+      <div id="BblocCharteKourel" class="card text-center" style="width: 500px; height: 300px;">
+        <div style="background-color: #005600; color:#f8f9fa;" class="card-body d-flex flex-column justify-content-center align-items-center h-100">
+          <!-- <h5 class="card-title">Charte Kourel</h5> -->
+          <img id="imgBblocCharteKourel" src="imgs/CharteKourelLivre.png" alt="">
+          <p id="ParagrapheBlocCharteKourel" class="card-text">Charte Kourel.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4 d-flex justify-content-center mb-4" >
+      <a href="presence.html" style="text-decoration:none;">
+        <div id="BblocCharteKourel" class="card text-center" style="width: 500px; height: 300px; cursor:pointer;">
+          <div style="background-color: #005600; color:#f8f9fa;" class="card-body d-flex flex-column justify-content-center align-items-center h-100">
+            <img id="imgBblocCharteKourel" src="imgs/Presence.png" alt="">
+            <p id="ParagrapheBlocCharteKourel" class="card-text">Présence</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-12 col-md-4 d-flex justify-content-center mb-4" >
+      <div id="BblocCharteKourel" class="card text-center" style="width: 500px; height: 300px;">
+        <div style="background-color: #005600; color:#f8f9fa;" class="card-body d-flex flex-column justify-content-center align-items-center h-100">
+          <!-- <h5 class="card-title">Charte Kourel</h5> -->
+          <img id="imgBblocCharteKourel" src="imgs/CharteKourelLivre.png" alt="">
+          <p id="ParagrapheBlocCharteKourel" class="card-text">Charte Kourel.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+<!-- Ajoute ce bloc juste après </div> qui ferme la row des cartes -->
+<div class="container my-4" id="presenceAccueilBloc">
+    <h3 class="text-center" style="color:#005600;">Présence du jour</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header bg-success text-white">Présents</div>
+                <ul class="list-group list-group-flush" id="listePresents"></ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header bg-danger text-white">Absents</div>
+                <ul class="list-group list-group-flush" id="listeAbsents"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <!-- Formulaire centré -->
+    <!-- <div class="form-container">
+        <div class="card p-4" style="width: 100%; max-width: 400px;">
+            <h4 style="color: #005600; font-weight: bold ;" class="mb-3 text-center">Formulaire d'inscription</h4>
+            <form action="" method="post" class="Formulaire">
+                <div class="mb-3">
+                    <label for="nom" class="form-label">Nom :</label>
+                    <input type="text" class="form-control" id="nom" name="nom" required>
+                </div>
+                <div class="mb-3">
+                    <label for="prenom" class="form-label">Prénom :</label>
+                    <input type="text" class="form-control" id="prenom" name="prenom" required>
+                </div>
+           
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email :</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="d-grid" >
+                    <button name="boutonEnvoyer" type="submit" class="btn" style="background-color: #003A00; color: #f8f9fa;">Envoyer</button>
+                </div>
+            </form>
+        </div>
+    </div> -->
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- footer -->
+    <footer>
+        <div style="background-color: #005600; color:#f8f9fa; padding: 0.1%;padding-top: 1%;" class="text-center mt-4">
+            <p>&copy; 2023 Daara Fathul Ghaffar Touba Mohammedia. Tous droits réservés.</p>
+        </div>
+    </footer>
+    <script>
+    // Afficher le bouton admin si l'utilisateur est admin (exemple simple)
+    // Remplacez ce test par une vraie vérification d'authentification si besoin
+    const isAdmin = localStorage.getItem('isAdmin') === 'true';
+    if(isAdmin) {
+        document.getElementById('adminMenu').style.display = 'block';
+    }
+</script>
+
+<!-- Modal d'authentification admin -->
+<div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" id="adminLoginForm" autocomplete="off">
+      <div class="modal-header">
+        <h5 class="modal-title" id="adminModalLabel">Connexion Admin</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="adminUser" class="form-label">Identifiant</label>
+          <input type="text" class="form-control" id="adminUser" required>
+        </div>
+        <div class="mb-3">
+          <label for="adminPass" class="form-label">Mot de passe</label>
+          <input type="password" class="form-control" id="adminPass" required>
+        </div>
+        <div id="adminLoginError" class="text-danger" style="display:none;">Identifiants incorrects</div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Se connecter</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+document.getElementById('adminLoginForm').onsubmit = function(e) {
+    e.preventDefault();
+    // Identifiants à personnaliser
+    const user = document.getElementById('adminUser').value.trim();
+    const pass = document.getElementById('adminPass').value;
+    if(user === "daouda" && pass === "daouda") {
+        localStorage.setItem('isAdmin', 'true');
+        window.location.href = "presence.html";
+    } else {
+        document.getElementById('adminLoginError').style.display = "block";
+    }
+};
+</script>
+<script>
+// Affichage des présences/absences injectées
+function afficherPresenceAccueil() {
+    const data = JSON.parse(localStorage.getItem('kourel1_presence_accueil') || '[]');
+    const presents = data.filter(m => m.status === 'present');
+    const absents = data.filter(m => m.status === 'absent');
+    const ulP = document.getElementById('listePresents');
+    const ulA = document.getElementById('listeAbsents');
+    ulP.innerHTML = presents.length ? presents.map(m => `<li class="list-group-item">${m.name}</li>`).join('') : '<li class="list-group-item text-muted">Aucun</li>';
+    ulA.innerHTML = absents.length ? absents.map(m => `<li class="list-group-item">${m.name}</li>`).join('') : '<li class="list-group-item text-muted">Aucun</li>';
+}
+afficherPresenceAccueil();
+</script>
+</body>
+</html>
